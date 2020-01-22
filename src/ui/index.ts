@@ -30,16 +30,12 @@ brushSizeElement.addEventListener(
 
 const drawFrame = () =>
 {
-  for (let y = 0; y < map.ground.length; y += 1)
+  for (const [y, row] of map.ground.entries())
   {
-    const row = map.ground[y];
-
     if (row)
     {
-      for (let x = 0; x < row.length; x += 1)
+      for (const [x, tile] of row.entries())
       {
-        const tile  = row[x];
-
         if (typeof tile !== "undefined")
         {
           drawGround(

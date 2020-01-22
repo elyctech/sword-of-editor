@@ -3,6 +3,7 @@ import {
 } from "./context";
 
 import {
+  Ground,
   GroundType,
 
   tileSize
@@ -10,7 +11,11 @@ import {
 
 let brushSize = 1;
 
-let selectedTile  : GroundType | null = null;
+let selectedTile  : GroundType = Ground.none;
+
+const strokeHistory : GroundType[][][] = [];
+
+let lastStroke  : GroundType[][] = [];
 
 export function setBrushSize(
   size  : number
@@ -36,25 +41,35 @@ const paintTile = (
   event : MouseEvent
 ) : void =>
 {
-  if (selectedTile !== null)
+  const mouseX = Math.floor(event.x / tileSize);
+  const mouseY = Math.floor(event.y / tileSize);
+
+  const startY = mouseY - Math.floor(brushSize / 2);
+
+  for (let dy = 0; dy < brushSize; dy += 1)
   {
-    const startY = Math.floor(event.y / tileSize) - Math.floor(brushSize / 2);
+    const y = startY + dy;
 
-    for (let dy = 0; dy < brushSize; dy += 1)
+    if (!map.ground[y])
     {
-      const y = startY + dy;
+      map.ground[y] = [];
+    }
 
-      if (!map.ground[y])
+    if (!lastStroke[y])
+    {
+      lastStroke[y] = [];
+    }
+
+    const startX = mouseX - Math.floor(brushSize / 2);
+
+    for (let dx = 0; dx < brushSize; dx += 1)
+    {
+      const x = startX + dx;
+
+      // Only paint a tile once per stroke
+      if (typeof lastStroke[y][x] === "undefined")
       {
-        map.ground[y] = [];
-      }
-
-      const startX = Math.floor(event.x / tileSize) - Math.floor(brushSize / 2);
-
-      for (let dx = 0; dx < brushSize; dx += 1)
-      {
-        const x = startX + dx;
-
+        lastStroke[y][x] = map.ground[y][x] || Ground.none;
         map.ground[y][x] = selectedTile;
       }
     }
@@ -69,11 +84,16 @@ context.canvas.addEventListener(
     event : MouseEvent
   ) : void =>
   {
-    painting = true;
+    if (selectedTile !== Ground.none)
+    {
+      painting = true;
 
-    paintTile(
-      event
-    );
+      lastStroke  = [];
+
+      paintTile(
+        event
+      );
+    }
   }
 );
 
@@ -96,6 +116,40 @@ context.canvas.addEventListener(
   "mouseup",
   ()  : void =>
   {
-    painting = false;
+    if (painting)
+    {
+      painting = false;
+
+      strokeHistory.push(
+        lastStroke
+      );
+    }
+  }
+);
+
+window.addEventListener(
+  "keydown",
+  (
+    event : KeyboardEvent
+  ) : void =>
+  {
+    if (event.ctrlKey && event.key === "z")
+    {
+      const stroke = strokeHistory.pop();
+
+      if (stroke)
+      {
+        for (const [y, row] of stroke.entries())
+        {
+          if (row)
+          {
+            for (const [x, tile] of row.entries())
+            {
+              map.ground[y][x] = tile;
+            }
+          }
+        }
+      }
+    }
   }
 );

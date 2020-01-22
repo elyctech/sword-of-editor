@@ -1,6 +1,6 @@
 {
   "name": "sword-of-editor",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Editor tools for Sword of Playable.",
   "main": "dist/index.html",
   "author": "Cyle Ven Dawson <dawsonc623@gmail.com>",

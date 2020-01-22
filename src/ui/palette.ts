@@ -59,7 +59,7 @@ export default function createPalette(
       event : KeyboardEvent
     ) : void =>
     {
-      if (event.code === "Tab")
+      if (event.key === "Tab")
       {
         paletteOpen = !paletteOpen;
 

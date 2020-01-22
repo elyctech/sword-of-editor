@@ -22,6 +22,7 @@ export const verticalTileCount  = Math.ceil(viewportHeight / tileSize);
 
 export const Ground = createEnum(
   [
+    "none",
     "dirt",
     "grass"
   ]
@@ -30,6 +31,7 @@ export const Ground = createEnum(
 export type GroundType = EnumValue;
 
 export const groundTiles = {
+  [Ground.none]   : "#fff",
   [Ground.dirt]   : "#6e4d05",
   [Ground.grass]  : "#07a842"
 };
