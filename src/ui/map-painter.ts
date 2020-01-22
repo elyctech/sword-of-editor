@@ -202,7 +202,10 @@ window.addEventListener(
           {
             for (const [x, tile] of row.entries())
             {
-              map.ground[y][x] = tile;
+              if (typeof tile !== "undefined")
+              {
+                map.ground[y][x] = tile;
+              }
             }
           }
         }
