@@ -3,6 +3,10 @@ import {
 } from "./context";
 
 import {
+  setMouseCoordinates
+} from "./mouse-coordinates";
+
+import {
   Ground,
   GroundType,
 
@@ -107,12 +111,16 @@ context.canvas.addEventListener(
     event : MouseEvent
   ) : void =>
   {
+    let x = Math.floor(event.x / tileSize);
+    let y = Math.floor(event.y / tileSize);
+
+    setMouseCoordinates(
+      x,
+      y
+    );
+
     if (painting)
     {
-
-      let x = Math.floor(event.x / tileSize);
-      let y = Math.floor(event.y / tileSize);
-
       // Draw in a straight line if shift is held
 
       if (event.shiftKey)
