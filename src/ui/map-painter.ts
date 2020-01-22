@@ -17,6 +17,11 @@ const strokeHistory : GroundType[][][] = [];
 
 let lastStroke  : GroundType[][] = [];
 
+let directionLock : {
+  x ?: number;
+  y ?: number;
+} | null = null;
+
 export function setBrushSize(
   size  : number
 ) : void
@@ -38,12 +43,10 @@ export const map  : {
 };
 
 const paintTile = (
-  event : MouseEvent
+  mouseX  : number,
+  mouseY  : number
 ) : void =>
 {
-  const mouseX = Math.floor(event.x / tileSize);
-  const mouseY = Math.floor(event.y / tileSize);
-
   const startY = mouseY - Math.floor(brushSize / 2);
 
   for (let dy = 0; dy < brushSize; dy += 1)
@@ -91,7 +94,8 @@ context.canvas.addEventListener(
       lastStroke  = [];
 
       paintTile(
-        event
+        Math.floor(event.x / tileSize),
+        Math.floor(event.y / tileSize)
       );
     }
   }
@@ -105,8 +109,51 @@ context.canvas.addEventListener(
   {
     if (painting)
     {
+
+      let x = Math.floor(event.x / tileSize);
+      let y = Math.floor(event.y / tileSize);
+
+      // Draw in a straight line if shift is held
+
+      if (event.shiftKey)
+      {
+        if (!directionLock)
+        {
+          // If X > Y, we are moving more in the X, so draw straight in the X (stop the Y from changing). Otherwise, draw
+          //  straight in the Y (stop the X for changing)
+          if (event.movementX > event.movementY)
+          {
+            directionLock = {
+              y
+            }
+          }
+          else
+          {
+            directionLock = {
+              x
+            };
+          }
+        }
+        else
+        {
+          if (typeof directionLock.x === "undefined")
+          {
+            y = directionLock.y!;
+          }
+          else
+          {
+            x = directionLock.x!;
+          }
+        }
+      }
+      else if (directionLock)
+      {
+        directionLock = null;
+      }
+
       paintTile(
-        event
+        x,
+        y
       );
     }
   }
@@ -123,6 +170,8 @@ context.canvas.addEventListener(
       strokeHistory.push(
         lastStroke
       );
+
+      directionLock = null;
     }
   }
 );

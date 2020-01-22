@@ -6,6 +6,7 @@ Editor tools for Sword of Playable.
 
 * `tab` Opens/Closes palette.
 * `left-mouse-button` Paints on canvas. Hold and drag to paint strokes.
+  * Hold `shift` to paint in straight lines.
 * `ctrl + z` Undoes the last stroke.
 
 ## Run Locally in Dev Mode
