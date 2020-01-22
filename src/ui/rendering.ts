@@ -14,9 +14,20 @@ import {
 
 export const horizontalTileCount  = 128;
 
-export const tileSize  = Math.ceil(viewportWidth / horizontalTileCount);
+// export const tileSize  = Math.ceil(viewportWidth / horizontalTileCount);
+export const tileSize  = viewportWidth / horizontalTileCount;
 
-export const verticalTileCount  = Math.ceil(viewportHeight / tileSize);
+export const verticalTileCount  = viewportHeight / tileSize;
+
+export function clearCanvas()
+{
+  context.clearRect(
+    0,
+    0,
+    viewportWidth,
+    viewportHeight
+  );
+}
 
 // Ground
 
@@ -45,11 +56,19 @@ export function drawGround(
 ) : void {
   context.fillStyle = groundTiles[type];
 
-  context.fillRect(
-    x * tileSize + dx,
-    y * tileSize + dy,
-    tileSize,
+  const ceiledTileSize = Math.ceil(
     tileSize
+  );
+
+  const flooredTileSize = Math.floor(
+    tileSize
+  );
+
+  context.fillRect(
+    x * flooredTileSize + dx,
+    y * flooredTileSize + dy,
+    ceiledTileSize,
+    ceiledTileSize
   );
 }
 

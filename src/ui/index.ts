@@ -1,35 +1,18 @@
 import {
-  map,
-
-  setBrushSize,
-  setTile
+  map
 } from "./map-painter";
 
+import "./palette";
+
 import {
+  clearCanvas,
   drawGround
 } from "./rendering";
 
-import createTileSeletor  from "./palette";
-
-createTileSeletor(
-  document.getElementById("palette")!,
-  setTile
-);
-
-const brushSizeElement  : HTMLInputElement  = document.getElementById("brushSize")! as HTMLInputElement;
-
-brushSizeElement.addEventListener(
-  "change",
-  () : void =>
-  {
-    setBrushSize(
-      brushSizeElement.valueAsNumber
-    );
-  }
-)
-
 const drawFrame = () =>
 {
+  clearCanvas();
+
   for (const [y, row] of map.ground.entries())
   {
     if (row)
