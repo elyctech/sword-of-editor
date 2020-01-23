@@ -13,6 +13,10 @@ import {
   tileSize
 } from "./rendering";
 
+import {
+  pan, panOffset
+} from "./viewport";
+
 let brushSize = 1;
 
 let selectedTile  : GroundType = Ground.none;
@@ -52,6 +56,7 @@ const paintTile = (
 ) : void =>
 {
   const startY = mouseY - Math.floor(brushSize / 2);
+  const startX = mouseX - Math.floor(brushSize / 2);
 
   for (let dy = 0; dy < brushSize; dy += 1)
   {
@@ -67,8 +72,6 @@ const paintTile = (
       lastStroke[y] = [];
     }
 
-    const startX = mouseX - Math.floor(brushSize / 2);
-
     for (let dx = 0; dx < brushSize; dx += 1)
     {
       const x = startX + dx;
@@ -83,7 +86,8 @@ const paintTile = (
   }
 };
 
-let painting = false;
+let painting  = false;
+let panning   = false;
 
 context.canvas.addEventListener(
   "mousedown",
@@ -91,17 +95,34 @@ context.canvas.addEventListener(
     event : MouseEvent
   ) : void =>
   {
-    if (selectedTile !== Ground.none)
+    if (event.button === 0)
     {
-      painting = true;
+      if (selectedTile !== Ground.none)
+      {
+        painting = true;
 
-      lastStroke  = [];
+        lastStroke  = [];
 
-      paintTile(
-        Math.floor(event.x / tileSize),
-        Math.floor(event.y / tileSize)
-      );
+        paintTile(
+          Math.floor((event.x - panOffset.x) / tileSize),
+          Math.floor((event.y - panOffset.y) / tileSize)
+        );
+      }
     }
+    else if (event.button === 2)
+    {
+      panning = true;
+    }
+  }
+);
+
+context.canvas.addEventListener(
+  "contextmenu",
+  (
+    event : MouseEvent
+  ) : void =>
+  {
+    event.preventDefault();
   }
 );
 
@@ -111,8 +132,8 @@ context.canvas.addEventListener(
     event : MouseEvent
   ) : void =>
   {
-    let x = Math.floor(event.x / tileSize);
-    let y = Math.floor(event.y / tileSize);
+    let x = Math.floor((event.x - panOffset.x) / tileSize);
+    let y = Math.floor((event.y - panOffset.y) / tileSize);
 
     setMouseCoordinates(
       x,
@@ -164,6 +185,13 @@ context.canvas.addEventListener(
         y
       );
     }
+    else if (panning)
+    {
+      pan(
+        event.movementX * 2 / 3,
+        event.movementY * 2 / 3
+      );
+    }
   }
 );
 
@@ -180,6 +208,10 @@ context.canvas.addEventListener(
       );
 
       directionLock = null;
+    }
+    else if (panning)
+    {
+      panning = false;
     }
   }
 );

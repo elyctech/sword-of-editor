@@ -1,7 +1,5 @@
 import {
   context,
-  viewportHeight,
-  viewportWidth
 } from "./context";
 
 import {
@@ -10,13 +8,12 @@ import {
   createEnum
 } from "./helpers";
 
-// Tiles
+import {
+  viewportHeight,
+  viewportWidth
+} from "./viewport";
 
-export const horizontalTileCount  = 128;
-
-export const tileSize  = viewportWidth / horizontalTileCount;
-
-export const verticalTileCount  = viewportHeight / tileSize;
+// General functions
 
 export function clearCanvas()
 {
@@ -27,6 +24,14 @@ export function clearCanvas()
     viewportHeight
   );
 }
+
+// Tiles
+
+export const horizontalTileCount  = 128;
+
+export const tileSize  = viewportWidth / horizontalTileCount;
+
+export const verticalTileCount  = viewportHeight / tileSize;
 
 // Ground
 
@@ -59,13 +64,9 @@ export function drawGround(
     tileSize
   );
 
-  const flooredTileSize = Math.floor(
-    tileSize
-  );
-
   context.fillRect(
-    x * flooredTileSize + dx,
-    y * flooredTileSize + dy,
+    Math.floor(x * tileSize + dx),
+    Math.floor(y * tileSize + dy),
     ceiledTileSize,
     ceiledTileSize
   );
@@ -96,7 +97,9 @@ const characters = {
 export function drawCharacter(
   type  : CharacterType,
   x     : number,
-  y     : number
+  y     : number,
+  dx    : number = 0,
+  dy    : number = 0
 ) : void
 {
   context.fillStyle = characters[type];
@@ -104,8 +107,8 @@ export function drawCharacter(
   context.beginPath();
 
   context.ellipse(
-    x * tileSize,
-    y * tileSize,
+    x * tileSize + dx,
+    y * tileSize + dy,
     1 * tileSize,
     2 * tileSize,
     0,

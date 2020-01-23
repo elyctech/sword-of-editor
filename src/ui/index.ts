@@ -9,6 +9,10 @@ import {
   drawGround
 } from "./rendering";
 
+import {
+  panOffset
+} from "./viewport";
+
 const drawFrame = () =>
 {
   clearCanvas();
@@ -24,7 +28,9 @@ const drawFrame = () =>
           drawGround(
             tile,
             x,
-            y
+            y,
+            panOffset.x,
+            panOffset.y
           );
         }
       }
