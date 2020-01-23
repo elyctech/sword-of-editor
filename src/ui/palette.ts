@@ -3,6 +3,8 @@ import {
 } from "./context";
 
 import {
+  map,
+
   setBrushSize,
   setTile
 } from "./map-painter";
@@ -14,6 +16,8 @@ import {
   groundTiles,
   tileSize
 } from "./rendering";
+
+// TODO Separate "drawer" from "palette" ("palette" being one thing in the drawer)
 
 const palette = document.getElementById("palette")!;
 
@@ -125,3 +129,31 @@ for (const [name, type] of Object.entries(Ground))
     tileContainer
   );
 }
+
+// Export button
+
+const exportButton  = document.getElementById("exportButton")!.firstElementChild!;
+const exportOverlay = document.getElementById("exportOverlay")!;
+const exportedMap   = document.getElementById("exportedMap")!;
+
+exportButton.addEventListener(
+  "click",
+  ()  : void =>
+  {
+    exportedMap.innerText       = JSON.stringify(map);
+    exportOverlay.style.display = "flex";
+  }
+);
+
+exportOverlay.addEventListener(
+  "click",
+  (
+    event : MouseEvent
+  ) : void =>
+  {
+    if (event.target === exportOverlay)
+    {
+      exportOverlay.style.display = "none";
+    }
+  }
+);

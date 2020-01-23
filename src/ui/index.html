@@ -19,6 +19,25 @@
       width   : 100%;
     }
 
+    div#exportOverlay
+    {
+      align-items       : center;
+      background-color  : rgba(0, 0, 0, .8);
+      bottom            : 0px;
+      display           : none;
+      justify-content   : center;
+      left              : 0px;
+      position          : absolute;
+      right             : 0px;
+      top               : 0px;
+    }
+
+    textarea#exportedMap
+    {
+      height  : 75%;
+      width   : 50%;
+    }
+
     div#palette
     {
       background-color  : white;
@@ -51,6 +70,20 @@
     <div
       id  = "tileSelector"
     ></div>
+    <div
+      id  = "exportButton"
+    >
+      <button>
+        Export
+      </button>
+    </div>
+  </div>
+  <div
+    id  = "exportOverlay"
+  >
+    <textarea
+      id  = "exportedMap"
+    ></textarea>
   </div>
   <span
     id = "mouseCoordinates"

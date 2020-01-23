@@ -14,7 +14,6 @@ import {
 
 export const horizontalTileCount  = 128;
 
-// export const tileSize  = Math.ceil(viewportWidth / horizontalTileCount);
 export const tileSize  = viewportWidth / horizontalTileCount;
 
 export const verticalTileCount  = viewportHeight / tileSize;
