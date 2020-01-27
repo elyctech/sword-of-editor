@@ -13,9 +13,16 @@
     "plugin:react/recommended"
   ],
   "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
   "plugins": [
     "@typescript-eslint",
-    "import"
+    "import",
+    "react",
+    "react-hooks"
   ],
   "rules": {
     "@typescript-eslint/accessibility"  : "error",
@@ -39,11 +46,18 @@
       "error",
       "double"
     ],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
     "semi": [
       "error",
       "always"
     ],
 
     "no-undef": "off"
+  },
+  "settings": {
+    "react" : {
+      "version" : "detect"
+    }
   }
 }

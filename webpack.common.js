@@ -2,7 +2,7 @@ const HtmlWebPackPlugin   = require("html-webpack-plugin");
 const TsConfigPathsPlugin = require("awesome-typescript-loader").TsConfigPathsPlugin;
 
 module.exports = {
-  "entry" : "./src/ui/index.ts",
+  "entry" : "./src/ui/index.tsx",
 
   "module"  : {
     "rules" : [
@@ -13,6 +13,16 @@ module.exports = {
         "use" : {
           "loader"  : "awesome-typescript-loader"
         }
+      },
+      {
+        "include" : /src/,
+        "test"    : /\.scss$/,
+
+        "use" : [
+          "style-loader",
+          "css-loader",
+          "sass-loader"
+        ]
       }
     ]
   },

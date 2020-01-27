@@ -5,88 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Sword of Editor</title>
-
-  <style type="text/css">
-    html, body
-    {
-      height  : 100%;
-      margin  : 0px;
-    }
-
-    canvas
-    {
-      height  : 100%;
-      width   : 100%;
-    }
-
-    div#exportOverlay
-    {
-      align-items       : center;
-      background-color  : rgba(0, 0, 0, .8);
-      bottom            : 0px;
-      display           : none;
-      justify-content   : center;
-      left              : 0px;
-      position          : absolute;
-      right             : 0px;
-      top               : 0px;
-    }
-
-    textarea#exportedMap
-    {
-      height  : 75%;
-      width   : 50%;
-    }
-
-    div#palette
-    {
-      background-color  : white;
-      border-right      : 1px solid black;
-      display           : none;
-      height            : 100%;
-      padding           : 0px 15px;
-      position          : absolute;
-      top               : 0px;
-    }
-  </style>
 </head>
 <body>
-  <canvas></canvas>
   <div
-    id  = "palette"
-  >
-    <div
-      id  = "brushOptions"
-    >
-      <label>
-        Brush Size:
-        <input
-          type  = "number"
-          id    = "brushSize"
-          value = "1"
-        />
-      </label>
-    </div>
-    <div
-      id  = "tileSelector"
-    ></div>
-    <div
-      id  = "exportButton"
-    >
-      <button>
-        Export
-      </button>
-    </div>
-  </div>
-  <div
-    id  = "exportOverlay"
-  >
-    <textarea
-      id  = "exportedMap"
-    ></textarea>
-  </div>
-  <span
-    id = "mouseCoordinates"
-  ></span>
+    id  = "app"
+  ></div>
 </body>
 </html>
