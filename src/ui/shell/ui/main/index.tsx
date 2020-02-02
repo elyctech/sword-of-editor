@@ -201,10 +201,6 @@ export default function ShellMain(
 
   // Render
 
-  // TODO Remove
-  setMapHeight;
-  setMapWidth;
-
   return (
     <div
       className = "shell"
@@ -222,8 +218,12 @@ export default function ShellMain(
       { drawerOpen &&
         <ToolDrawer
           brushSize       = {brushSize}
+          mapHeight       = {mapHeight}
+          mapWidth        = {mapWidth}
           selectedTile    = {selectedTile}
           setBrushSize    = {setBrushSize}
+          setMapHeight    = {setMapHeight}
+          setMapWidth     = {setMapWidth}
           setSelectedTile = {setSelectedTile}
           showMapExport   = {openMapExport}
           tileSize        = {tileSize}
@@ -232,8 +232,10 @@ export default function ShellMain(
       }
       { showMapExport &&
         <MapExport
-          close = {closeMapExport}
-          map   = {map}
+          close     = {closeMapExport}
+          map       = {map}
+          mapHeight = {mapHeight}
+          mapWidth  = {mapWidth}
         />
       }
       <MouseCoordinates

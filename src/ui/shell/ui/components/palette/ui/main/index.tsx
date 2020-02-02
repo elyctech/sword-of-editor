@@ -6,8 +6,6 @@ import {
   GroundType
 } from "../../../../../../../lib/rendering";
 
-import "./index.scss";
-
 interface PaletteMainProps
 {
   selectedTile  : GroundType;

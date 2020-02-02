@@ -20,6 +20,10 @@ interface MapExportMainProps
 {
   map : Map;
 
+  mapHeight : number;
+
+  mapWidth  : number;
+
   close : () => void;
 }
 
@@ -29,7 +33,9 @@ export default function MapExportMain(
 {
   const {
     close,
-    map
+    map,
+    mapHeight,
+    mapWidth
   } = props;
 
   const closeExport = useCallback(
@@ -48,6 +54,12 @@ export default function MapExportMain(
     ]
   );
 
+  const clippedMap  = {
+    "ground"  : map.ground.slice(0, mapHeight).map(
+      (row) => row.slice(0, mapWidth)
+    )
+  };
+
   return (
     <div
       className = "mapExport"
@@ -55,7 +67,7 @@ export default function MapExportMain(
     >
       <textarea
         readOnly  = {true}
-        value     = {JSON.stringify(map)}
+        value     = {JSON.stringify(clippedMap)}
       ></textarea>
     </div>
   );

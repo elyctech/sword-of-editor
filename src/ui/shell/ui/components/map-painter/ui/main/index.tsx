@@ -241,28 +241,37 @@ export default function MapPainterMain(
     }
   ).current;
 
-  const pan = (
-    x : number,
-    y : number
-  ) =>
-  {
-    // Clamp by map rectangle
-    panOffset.x = Math.min(
-      0,
-      Math.max(
-        viewport!.width - mapWidth * tileSize,
-        panOffset.x + x
-      )
-    );
+  const pan = useCallback(
+    (
+      x : number,
+      y : number
+    ) =>
+    {
+      // Clamp by map rectangle
+      panOffset.x = Math.min(
+        0,
+        Math.max(
+          viewport!.width - mapWidth * tileSize,
+          panOffset.x + x
+        )
+      );
 
-    panOffset.y = Math.min(
-      0,
-      Math.max(
-        viewport!.height - mapHeight * tileSize,
-        panOffset.y + y
-      )
-    );
-  };
+      panOffset.y = Math.min(
+        0,
+        Math.max(
+          viewport!.height - mapHeight * tileSize,
+          panOffset.y + y
+        )
+      );
+    },
+    [
+      mapHeight,
+      mapWidth,
+      panOffset,
+      tileSize,
+      viewport
+    ]
+  );
 
   const isPaintingRef = useRef(false);
   const isPanningRef  = useRef(false);
@@ -373,6 +382,7 @@ export default function MapPainterMain(
     [
       brushSize,
       directionLock,
+      pan,
       selectedTile,
       tileSize
     ]

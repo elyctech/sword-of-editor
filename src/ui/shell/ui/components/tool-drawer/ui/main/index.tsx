@@ -18,6 +18,10 @@ interface ToolDrawerMainProps
 {
   brushSize : number;
 
+  mapHeight : number;
+
+  mapWidth  : number;
+
   selectedTile  : GroundType;
 
   tileSize  : number;
@@ -29,6 +33,14 @@ interface ToolDrawerMainProps
 
   setBrushSize  : (
     size  : number
+  ) => void;
+
+  setMapHeight  : (
+    height  : number
+  ) => void;
+
+  setMapWidth : (
+    width : number
   ) => void;
 
   setSelectedTile : (
@@ -44,8 +56,12 @@ export default function ToolDrawerMain(
 {
   const {
     brushSize,
+    mapHeight,
+    mapWidth,
     selectedTile,
     setBrushSize,
+    setMapHeight,
+    setMapWidth,
     setSelectedTile,
     showMapExport,
     tileSize,
@@ -61,7 +77,37 @@ export default function ToolDrawerMain(
         event.target.valueAsNumber
       );
     },
-    []
+    [
+      setBrushSize
+    ]
+  );
+
+  const updateMapHeight = useCallback(
+    (
+      event: React.ChangeEvent<HTMLInputElement>
+    ) =>
+    {
+      setMapHeight(
+        event.target.valueAsNumber
+      );
+    },
+    [
+      setMapHeight
+    ]
+  );
+
+  const updateMapWidth = useCallback(
+    (
+      event: React.ChangeEvent<HTMLInputElement>
+    ) =>
+    {
+      setMapWidth(
+        event.target.valueAsNumber
+      );
+    },
+    [
+      setMapWidth
+    ]
   );
 
   return (
@@ -69,10 +115,27 @@ export default function ToolDrawerMain(
       className = "toolDrawer"
     >
       <div
-        className = "mapSize"
-      ></div>
+        className = "tool mapSize"
+      >
+        Height:
+        <input
+          min       = {1}
+          onChange  = {updateMapHeight}
+          type      = "number"
+          value     = {mapHeight}
+        />
+
+        Width:
+        <input
+          min       = {1}
+          onChange  = {updateMapWidth}
+          type      = "number"
+          value     = {mapWidth}
+        />
+
+      </div>
       <div
-        className = "brushSize"
+        className = "tool brushSize"
       >
         Brush:
         <input
@@ -82,14 +145,18 @@ export default function ToolDrawerMain(
           value     = {brushSize}
         />
       </div>
-      <Palette
-        selectedTile    = {selectedTile}
-        setSelectedTile = {setSelectedTile}
-        tileSize        = {tileSize}
-        tiles           = {tiles}
-      />
       <div
-        className = "exportControl"
+        className = "tool tool-flex"
+      >
+        <Palette
+          selectedTile    = {selectedTile}
+          setSelectedTile = {setSelectedTile}
+          tileSize        = {tileSize}
+          tiles           = {tiles}
+        />
+      </div>
+      <div
+        className = "tool exportControl"
       >
         <button
           className = "exportButton"
