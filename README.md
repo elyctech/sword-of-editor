@@ -1,3 +1,7 @@
+# Moved!
+
+Sword of Editor has been integrated into the larger [Sword Of](https://github.com/elyctech/sword-of) project.
+
 # Sword of Editor
 
 Editor tools for Sword of Playable.
